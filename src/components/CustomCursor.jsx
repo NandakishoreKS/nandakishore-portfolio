@@ -31,24 +31,28 @@ export default function CustomCursor() {
     };
     animate();
 
-    const onEnter = () => {
-      dot.classList.add('is-hovering');
-      ring.classList.add('is-hovering');
+    const onMouseOver = (e) => {
+      if (e.target.closest('a, button, input, textarea, label, [role="button"]')) {
+        dot.classList.add('is-hovering');
+        ring.classList.add('is-hovering');
+      }
     };
-    const onLeave = () => {
-      dot.classList.remove('is-hovering');
-      ring.classList.remove('is-hovering');
+
+    const onMouseOut = (e) => {
+      if (e.target.closest('a, button, input, textarea, label, [role="button"]')) {
+        dot.classList.remove('is-hovering');
+        ring.classList.remove('is-hovering');
+      }
     };
 
     window.addEventListener('mousemove', onMove);
-    document.querySelectorAll('a, button, input, textarea, label, [role="button"]')
-      .forEach((el) => {
-        el.addEventListener('mouseenter', onEnter);
-        el.addEventListener('mouseleave', onLeave);
-      });
+    document.addEventListener('mouseover', onMouseOver);
+    document.addEventListener('mouseout', onMouseOut);
 
     return () => {
       window.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseout', onMouseOut);
       cancelAnimationFrame(rafId);
     };
   }, []);

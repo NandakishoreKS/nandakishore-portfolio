@@ -1,3 +1,5 @@
+import { Reveal } from './Reveal';
+
 const disciplinesList = [
   {
     id: '01',
@@ -41,84 +43,63 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      style={{
-        padding: 'clamp(5rem, 12vw, 10rem) clamp(1.5rem, 6vw, 5rem)',
-        borderTop: '1px solid var(--ash)',
-      }}
+      className="px-[clamp(1.5rem,6vw,5rem)] py-[clamp(5rem,12vw,10rem)] border-t border-ash bg-obsidian"
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div className="max-w-[1200px] mx-auto">
 
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <div className="flex justify-between items-end flex-wrap gap-4 mb-16">
           <div>
-            <div className="section-label reveal" style={{ marginBottom: '1.25rem' }}>
-              // Disciplines
+            <div className="mb-5">
+              <Reveal>
+                <div className="section-label">// Disciplines</div>
+              </Reveal>
             </div>
-            <h2
-              className="reveal reveal-delay-1"
-              style={{
-                fontFamily: 'var(--serif)',
-                fontSize: 'clamp(2.2rem, 5vw, 4rem)',
-                fontWeight: 700,
-                color: 'var(--white)',
-                letterSpacing: '-0.01em',
-                lineHeight: 1.1,
-              }}
-            >
-              What I Build
+            <h2 className="font-serif text-[clamp(2.2rem,5vw,4rem)] font-bold text-white tracking-[-0.01em] leading-[1.1]">
+              <Reveal delay={0.1}>What I Build</Reveal>
             </h2>
           </div>
-          <div
-            className="reveal reveal-delay-2"
-            style={{
-              fontFamily: 'var(--mono)', fontSize: '0.6rem',
-              letterSpacing: '0.15em', color: 'var(--stone)',
-              textTransform: 'uppercase',
-            }}
-          >
-            {disciplinesList.length}&nbsp;Disciplines
-          </div>
+          <Reveal delay={0.2}>
+            <div className="font-mono text-[0.6rem] tracking-[0.15em] text-stone-500 uppercase">
+              {disciplinesList.length}&nbsp;Disciplines
+            </div>
+          </Reveal>
         </div>
 
         {/* Skills list */}
-        <div style={{ borderTop: '1px solid var(--ash)' }}>
+        <div className="border-t border-ash flex flex-col">
           {disciplinesList.map((skill, index) => (
             <div
               key={skill.id}
-              className={`skill-row reveal reveal-delay-${Math.min(index + 1, 5)}`}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '3.5rem 1fr auto',
-                alignItems: 'center',
-                padding: 'clamp(1.25rem, 3vw, 2rem) 0',
-                gap: 'clamp(1rem, 3vw, 2.5rem)',
-              }}
+              className="skill-row grid grid-cols-[3.5rem_1fr_auto] items-center py-[clamp(1.25rem,3vw,2rem)] gap-[clamp(1rem,3vw,2.5rem)]"
             >
               {/* Number */}
-              <span className="skill-num" style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', letterSpacing: '0.15em', color: 'var(--ash)' }}>
-                {skill.id}
-              </span>
+              <Reveal delay={0.1}>
+                <span className="skill-num block">
+                  {skill.id}
+                </span>
+              </Reveal>
 
               {/* Name + desc */}
-              <div>
-                <div className="skill-name" style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)', color: 'var(--stone)', fontWeight: 500, marginBottom: '0.35rem' }}>
-                  {skill.name}
-                </div>
-                <div style={{ fontFamily: 'var(--sans)', fontSize: '0.85rem', color: 'var(--stone)', fontWeight: 300, opacity: 0.8, maxWidth: '55ch' }}>
-                  {skill.desc}
-                </div>
+              <div className="flex flex-col gap-1">
+                <Reveal delay={0.15}>
+                  <div className="skill-name block">
+                    {skill.name}
+                  </div>
+                </Reveal>
+                <Reveal delay={0.2}>
+                  <div className="font-sans text-[0.85rem] text-stone-400 font-light max-w-[55ch]">
+                    {skill.desc}
+                  </div>
+                </Reveal>
               </div>
 
               {/* Tag */}
-              <span style={{
-                fontFamily: 'var(--mono)', fontSize: '0.55rem',
-                letterSpacing: '0.18em', textTransform: 'uppercase',
-                color: 'var(--ash)', border: '1px solid var(--ash)',
-                padding: '0.3rem 0.7rem', borderRadius: '2px',
-                whiteSpace: 'nowrap',
-              }}>
-                {skill.tag}
-              </span>
+              <Reveal delay={0.25}>
+                <span className="font-mono text-[0.55rem] tracking-[0.18em] uppercase text-ash border border-ash px-3 py-1 rounded-sm whitespace-nowrap block">
+                  {skill.tag}
+                </span>
+              </Reveal>
             </div>
           ))}
         </div>

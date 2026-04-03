@@ -1,169 +1,103 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-
-const WORDS = ['Intelligent', 'Systems.'];
-const WORDS2 = ['Engineering', 'Elegant', 'Interfaces.'];
-
-function SplitWord({ word, delay = 0 }) {
-  return (
-    <span style={{ display: 'inline-block', overflow: 'hidden', marginRight: '0.3em' }}>
-      <motion.span
-        style={{ display: 'inline-block' }}
-        initial={{ y: '110%' }}
-        animate={{ y: '0%' }}
-        transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {word}
-      </motion.span>
-    </span>
-  );
-}
+import { Reveal } from './Reveal';
 
 export default function Hero() {
-  const lineRef = useRef(null);
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const update = () => {
+      setTime(new Date().toUTCString().toUpperCase());
+    };
+    update();
+    const int = setInterval(update, 1000);
+    return () => clearInterval(int);
+  }, []);
 
   return (
     <section
       id="hero"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: 'clamp(6rem, 12vw, 10rem) clamp(1.5rem, 6vw, 5rem) clamp(4rem, 8vw, 6rem)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
+      className="relative min-h-screen w-full flex flex-col justify-center"
+      style={{ padding: '0 clamp(1.5rem, 6vw, 5rem)' }}
     >
-      {/* Status line — top */}
+      {/* Brutalist Top-Edge Metadata */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
-        style={{
-          position: 'absolute', top: '2rem', left: 'clamp(1.5rem, 6vw, 5rem)',
-          fontFamily: 'var(--mono)', fontSize: '0.6rem',
-          letterSpacing: '0.22em', textTransform: 'uppercase',
-          color: 'var(--stone)', display: 'flex', alignItems: 'center', gap: '1rem',
-        }}
+        className="absolute top-8 left-0 w-full flex justify-between tracking-[0.2em] uppercase font-mono text-[0.6rem] text-stone-500"
+        style={{ padding: '0 clamp(1.5rem, 6vw, 5rem)' }}
       >
-        <span style={{
-          display: 'inline-block', width: '6px', height: '6px',
-          borderRadius: '50%', background: 'var(--stone)',
-          animation: 'pulse-dot 2s ease-in-out infinite',
-        }} />
-        Nandakishore&nbsp;KS&nbsp;—&nbsp;Systems&nbsp;Online
+        <div className="flex items-center gap-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-stone-500 animate-pulse" />
+          SYSTEM_ONLINE
+        </div>
+        <div>NANDAKISHORE.KS.OBSIDIAN</div>
       </motion.div>
 
-      {/* Main heading */}
-      <div style={{ maxWidth: '1100px' }}>
-        <div style={{ marginBottom: '0.5rem' }}>
-          <div
-            className="section-label reveal"
-            style={{ marginBottom: '2.5rem' }}
-          >
-            AI/ML Engineer &amp; Full Stack Developer
+      {/* Asymmetrical Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center mt-20">
+        <div className="md:col-span-8">
+          <div className="mb-4">
+            <Reveal>
+              <div className="section-label">AI/ML Engineer &amp; Full Stack Developer</div>
+            </Reveal>
           </div>
+
+          <h1 className="font-serif leading-[1.05] tracking-tight text-[clamp(3.5rem,8vw,8rem)] font-black text-white m-0 uppercase">
+            <Reveal delay={0.1}>Architecting</Reveal>
+            <Reveal delay={0.2}>Intelligent</Reveal>
+            <div className="text-stone-500 flex gap-4 items-end flex-wrap">
+              <Reveal delay={0.3}><span>Systems.</span></Reveal>
+              <Reveal delay={0.4}>
+                <span className="font-mono text-[clamp(1rem,2vw,1.5rem)] tracking-widest font-light align-text-bottom pb-4">V_0.1</span>
+              </Reveal>
+            </div>
+          </h1>
         </div>
 
-        <h1
-          style={{
-            fontFamily: 'var(--serif)',
-            fontSize: 'clamp(3rem, 7.5vw, 7rem)',
-            fontWeight: 900,
-            lineHeight: 1.05,
-            letterSpacing: '-0.02em',
-            color: 'var(--white)',
-            marginBottom: '0',
-          }}
-        >
-          <div>
-            Architecting
-            <br />
-            <SplitWord word="Intelligent" delay={0.3} />
-            <SplitWord word="Systems." delay={0.45} />
-          </div>
-          <div style={{ color: 'var(--stone)' }}>
-            <SplitWord word="Engineering" delay={0.6} />
-            <SplitWord word="Elegant" delay={0.75} />
-            <SplitWord word="Interfaces." delay={0.9} />
-          </div>
-        </h1>
+        <div className="md:col-span-4 flex flex-col gap-12 mt-8 md:mt-0 text-right md:text-left">
+          <Reveal delay={0.5}>
+            <p className="font-sans font-light text-bone text-base md:text-lg leading-relaxed max-w-sm">
+              Engineering elegant logic and high-performance interfaces. Bridging the gap between raw data computation and sophisticated user experiences.
+            </p>
+          </Reveal>
+          
+          <Reveal delay={0.6}>
+            <div className="flex flex-col gap-6 font-mono text-[0.6rem] tracking-[0.2em] uppercase text-stone-400">
+              <div className="border-t border-stone-800 pt-4">
+                <span className="block mb-1 text-stone-600">Discipline</span>
+                <span className="text-white">AI / Full Stack</span>
+              </div>
+              <div className="border-t border-stone-800 pt-4">
+                <span className="block mb-1 text-stone-600">Location</span>
+                <span className="text-white">Kerala, IN</span>
+              </div>
+              <div className="border-t border-stone-800 pt-4">
+                <span className="block mb-1 text-stone-600">Status</span>
+                <span className="text-white">Available</span>
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </div>
 
-      {/* Metadata strip */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-        style={{
-          marginTop: 'clamp(3rem, 6vw, 5rem)',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-          gap: '0',
-          maxWidth: '720px',
-          borderTop: '1px solid var(--ash)',
-        }}
-      >
-        {[
-          { label: 'Location',    value: 'Kerala, IN' },
-          { label: 'Discipline',  value: 'AI / Full Stack' },
-          { label: 'Status',      value: 'Available' },
-          { label: 'Year',        value: '2026' },
-        ].map((item, i) => (
-          <div
-            key={item.label}
-            style={{
-              padding: '1.25rem 1.5rem 1.25rem 0',
-              borderRight: i < 3 ? '1px solid var(--ash)' : 'none',
-            }}
-          >
-            <div style={{
-              fontFamily: 'var(--mono)', fontSize: '0.55rem',
-              letterSpacing: '0.2em', textTransform: 'uppercase',
-              color: 'var(--stone)', marginBottom: '0.4rem',
-            }}>
-              {item.label}
-            </div>
-            <div style={{
-              fontFamily: 'var(--sans)', fontSize: '0.85rem',
-              color: 'var(--bone)', fontWeight: 400,
-            }}>
-              {item.value}
-            </div>
-          </div>
-        ))}
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.8 }}
-        style={{
-          position: 'absolute', bottom: '2.5rem', right: 'clamp(1.5rem, 6vw, 5rem)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem',
-        }}
-      >
-        <div style={{
-          fontFamily: 'var(--mono)', fontSize: '0.5rem',
-          letterSpacing: '0.2em', textTransform: 'uppercase',
-          color: 'var(--stone)', writingMode: 'vertical-rl',
-        }}>
-          Scroll
-        </div>
-        <div style={{
-          width: '1px', height: '60px',
-          background: 'linear-gradient(to bottom, var(--ash), transparent)',
-        }}/>
-      </motion.div>
-
-      <style>{`
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.3; }
-        }
-      `}</style>
+      {/* Brutalist Infinite Ticker Tape / Coordinate System */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-stone-800 bg-[#0A0A0A] py-3 text-stone-500 font-mono text-[0.6rem] tracking-[0.2em] whitespace-nowrap">
+        <motion.div
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{ ease: "linear", duration: 30, repeat: Infinity }}
+          className="inline-block"
+        >
+          {Array(4).fill(0).map((_, i) => (
+            <span key={i} className="pr-12">
+              SESSION.LAT: [ 9.9312 ] LON: [ 76.2673 ] ++ VECTOR.X(24) ++ 
+              {' '} {time} {' '} 
+              ++ INIT.CORE.SYS ++ NO_FAULT
+            </span>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }

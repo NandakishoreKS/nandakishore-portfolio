@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Reveal } from './Reveal';
 
 const projects = [
   {
@@ -24,137 +25,93 @@ const projects = [
   },
 ];
 
-function ProjectCard({ project, index }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+function BrutalistProject({ project, index }) {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
+  const isEven = index % 2 === 0;
 
   return (
     <article
-      ref={ref}
-      style={{
-        borderTop: '1px solid var(--ash)',
-        paddingTop: 'clamp(3rem, 7vw, 6rem)',
-        paddingBottom: 'clamp(3rem, 7vw, 6rem)',
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? 'none' : 'translateY(48px)',
-        transition: `opacity 1s cubic-bezier(0.16,1,0.3,1) ${index * 0.15}s, transform 1s cubic-bezier(0.16,1,0.3,1) ${index * 0.15}s`,
-      }}
+      ref={containerRef}
+      className="relative w-full border-t border-ash min-h-screen py-32"
     >
-      {/* Overline */}
-      <div className="section-label" style={{ marginBottom: '1.5rem' }}>
-        {project.object}
-      </div>
-
-      {/* Cover image */}
-      <div
-        className="project-cover"
-        style={{
-          width: '100%',
-          aspectRatio: '16 / 7',
-          borderRadius: '3px',
-          marginBottom: 'clamp(2rem, 4vw, 3.5rem)',
-          background: 'var(--graphite)',
-        }}
-      >
-        <img
-          src={project.cover}
-          alt={`${project.name} cover`}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        />
-        <div className="project-cover-overlay">
-          <span style={{
-            fontFamily: 'var(--serif)', fontSize: '1.2rem',
-            color: 'var(--white)', fontStyle: 'italic',
-          }}>
-            View project →
-          </span>
-        </div>
-      </div>
-
-      {/* Title */}
-      <h3 style={{
-        fontFamily: 'var(--serif)',
-        fontSize: 'clamp(1.8rem, 4vw, 3.5rem)',
-        fontWeight: 700,
-        color: 'var(--white)',
-        letterSpacing: '-0.015em',
-        lineHeight: 1.1,
-        marginBottom: 'clamp(2rem, 4vw, 3rem)',
-        maxWidth: '800px',
-      }}>
-        {project.name}
-      </h3>
-
-      {/* Context / Result columns */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-        gap: 'clamp(2rem, 5vw, 5rem)',
-        marginBottom: 'clamp(1.5rem, 3vw, 2.5rem)',
-      }}>
-        <div>
-          <div className="section-label" style={{ marginBottom: '1rem' }}>
-            // Context
+      <div className={`grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center ${isEven ? '' : 'dir-rtl'}`}>
+        
+        {/* Main Cover Block */}
+        <div className={`md:col-span-7 relative ${!isEven ? 'dir-ltr' : ''}`}>
+          <Reveal>
+            <div className="section-label mb-8">{project.object}</div>
+          </Reveal>
+          
+          <div className="overflow-hidden project-cover aspect-[4/5] object-cover mb-8 md:mb-0 relative">
+            <motion.img
+              style={{ y, scale: 1.15 }}
+              src={project.cover}
+              alt={project.name}
+              className="absolute w-full h-full object-cover filter grayscale contrast-125"
+            />
           </div>
-          <p style={{
-            fontFamily: 'var(--sans)', fontSize: '0.95rem',
-            color: 'var(--silver)', lineHeight: 1.85, fontWeight: 300,
-          }}>
-            {project.context}
-          </p>
         </div>
-        <div>
-          <div className="section-label" style={{ marginBottom: '1rem' }}>
-            // Result
-          </div>
-          <p style={{
-            fontFamily: 'var(--sans)', fontSize: '0.95rem',
-            color: 'var(--silver)', lineHeight: 1.85, fontWeight: 300,
-          }}>
-            {project.result}
-          </p>
-        </div>
-      </div>
 
-      {/* Tags + CTA */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem', marginTop: '2rem' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', flex: 1 }}>
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              style={{
-                fontFamily: 'var(--mono)', fontSize: '0.55rem',
-                letterSpacing: '0.15em', textTransform: 'uppercase',
-                color: 'var(--stone)', border: '1px solid var(--ash)',
-                padding: '0.3rem 0.75rem', borderRadius: '2px',
-              }}
-            >
-              {tag}
-            </span>
-          ))}
+        {/* Text Area overlaps on desktop */}
+        <div className={`md:col-span-5 flex flex-col justify-center z-10 ${!isEven ? 'dir-ltr' : ''}`}>
+          <Reveal delay={0.2}>
+            <h3 className="font-serif text-[clamp(2.5rem,6vw,5.5rem)] font-black text-white leading-[0.95] tracking-tighter uppercase break-words mb-12 mix-blend-difference">
+              {project.name}
+            </h3>
+          </Reveal>
+          
+          <div className="flex flex-col gap-12 bg-charcoal p-8 border border-ash brutalist-block">
+            <div>
+              <Reveal delay={0.3}>
+                <div className="section-label mb-4">// Context</div>
+              </Reveal>
+              <Reveal delay={0.4}>
+                <p className="font-sans text-sm text-silver leading-relaxed font-light">
+                  {project.context}
+                </p>
+              </Reveal>
+            </div>
+            
+            <div>
+              <Reveal delay={0.4}>
+                <div className="section-label mb-4">// Result</div>
+              </Reveal>
+              <Reveal delay={0.5}>
+                <p className="font-sans text-sm text-silver leading-relaxed font-light">
+                  {project.result}
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 mt-8 pt-8 border-t border-ash">
+              <div className="flex flex-wrap gap-2 flex-1">
+                {project.tags.map((tag, i) => (
+                  <Reveal key={tag} delay={0.5 + (i * 0.05)}>
+                    <span className="font-mono text-[0.55rem] tracking-[0.15em] uppercase text-stone-400 border border-ash px-3 py-1">
+                      {tag}
+                    </span>
+                  </Reveal>
+                ))}
+              </div>
+              <Reveal delay={0.7}>
+                <a
+                  href={project.link}
+                  className="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-bone no-underline border-b border-ash pb-1 hover:text-white hover:border-silver transition-colors"
+                >
+                  View Study&nbsp;→
+                </a>
+              </Reveal>
+            </div>
+          </div>
         </div>
-        <a
-          href={project.link}
-          style={{
-            fontFamily: 'var(--mono)', fontSize: '0.65rem',
-            letterSpacing: '0.2em', textTransform: 'uppercase',
-            color: 'var(--bone)', textDecoration: 'none',
-            display: 'flex', alignItems: 'center', gap: '0.5rem',
-            borderBottom: '1px solid var(--ash)',
-            paddingBottom: '2px',
-            transition: 'color 0.3s ease, border-color 0.3s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = 'var(--white)';
-            e.currentTarget.style.borderColor = 'var(--silver)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--bone)';
-            e.currentTarget.style.borderColor = 'var(--ash)';
-          }}
-        >
-          View Case Study&nbsp;→
-        </a>
+
       </div>
     </article>
   );
@@ -162,50 +119,33 @@ function ProjectCard({ project, index }) {
 
 export default function Projects() {
   return (
-    <section
-      id="projects"
-      style={{
-        padding: 'clamp(5rem, 12vw, 10rem) clamp(1.5rem, 6vw, 5rem)',
-        borderTop: '1px solid var(--ash)',
-      }}
-    >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <section id="projects" className="px-[clamp(1.5rem,6vw,5rem)] border-t border-ash py-32 bg-[#050505]">
+      <div className="max-w-[1400px] mx-auto">
+        
         {/* Header */}
-        <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
+        <div className="flex justify-between items-end flex-wrap gap-4 mb-32">
           <div>
-            <div className="section-label reveal" style={{ marginBottom: '1.25rem' }}>
-              // Origin Objects
-            </div>
-            <h2
-              className="reveal reveal-delay-1"
-              style={{
-                fontFamily: 'var(--serif)',
-                fontSize: 'clamp(2.2rem, 5vw, 4rem)',
-                fontWeight: 700,
-                color: 'var(--white)',
-                letterSpacing: '-0.01em',
-                lineHeight: 1.1,
-              }}
-            >
-              Selected Works
+            <Reveal>
+              <div className="section-label mb-5">// Origin Objects</div>
+            </Reveal>
+            <h2 className="font-serif text-[clamp(2.5rem,6vw,5rem)] font-black text-white tracking-tight uppercase leading-[1.1]">
+              <Reveal delay={0.1}>Selected</Reveal>
+              <Reveal delay={0.2}>Works</Reveal>
             </h2>
           </div>
-          <div
-            className="reveal reveal-delay-2"
-            style={{
-              fontFamily: 'var(--mono)', fontSize: '0.6rem',
-              letterSpacing: '0.15em', color: 'var(--stone)',
-              textTransform: 'uppercase',
-            }}
-          >
-            {projects.length}&nbsp;Case Studies
-          </div>
+          <Reveal delay={0.3}>
+            <div className="font-mono text-[0.6rem] tracking-[0.15em] text-stone-500 uppercase pb-4">
+              {projects.length}&nbsp;Case Studies
+            </div>
+          </Reveal>
         </div>
 
         {/* Project cards */}
-        {projects.map((project, i) => (
-          <ProjectCard key={project.id} project={project} index={i} />
-        ))}
+        <div>
+          {projects.map((project, i) => (
+            <BrutalistProject key={project.id} project={project} index={i} />
+          ))}
+        </div>
       </div>
     </section>
   );
