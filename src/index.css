@@ -1,306 +1,109 @@
 @import "tailwindcss";
 
 /* ============================================================
-   OBSIDIAN ASSEMBLY — Global Design System
+   NANDAKISHORE KS — Dark Modern Portfolio (Purple Accent)
    ============================================================ */
 
 :root {
-  --obsidian:   #050505;
-  --charcoal:   #111111;
-  --graphite:   #1A1A1A;
-  --ash:        #2E2E2E;
-  --stone:      #4A4A4A;
-  --silver:     #8A8A8A;
-  --bone:       #E0E0E0;
-  --white:      #F0F0F0;
-  --pure-white: #FFFFFF;
+  --black:  #000000;
+  --white:  #FFFFFF;
+  --dark-gray: #111111;
+  --mid-gray: #888888;
+  --light-gray: #CCCCCC;
 
-  --serif: 'Playfair Display', Georgia, serif;
-  --mono:  'IBM Plex Mono', 'Courier New', monospace;
-  --sans:  'Inter', system-ui, sans-serif;
+  --accent-purple: #9d4edd;
+  --accent-pink: #ff70a6;
 
-  --transition-base: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --font-main: 'Space Grotesk', sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 /* ============================================================
-   BASE RESET & GLOBAL STYLES
+   BASE RESET
    ============================================================ */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html {
-  scroll-behavior: auto; /* Handled by Lenis now */
+  scroll-behavior: smooth;
   font-size: 16px;
+  background-color: var(--black);
 }
 
-/* lenis smooth scroll basic fix */
 html.lenis, html.lenis body {
   height: auto;
 }
 
 .lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+  scroll-behavior: auto !important; /* Lenis handles this when active */
 }
 
 .lenis.lenis-stopped {
   overflow: hidden;
 }
 
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
-
 body {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  font-family: var(--sans);
-  font-weight: 300;
-  letter-spacing: 0.01em;
-  line-height: 1.7;
+  background-color: var(--black);
+  color: var(--white);
+  font-family: var(--font-main);
+  font-weight: 400;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  cursor: none;
-}
-
-/* Cursor: hide default on all interactive */
-a, button, input, textarea, label, select, [role="button"] {
-  cursor: none;
-}
-
-::selection {
-  background: var(--white);
-  color: var(--obsidian);
-}
-
-/* ============================================================
-   TYPOGRAPHY UTILITIES
-   ============================================================ */
-.font-serif  { font-family: var(--serif); }
-.font-mono   { font-family: var(--mono);  }
-.font-sans   { font-family: var(--sans);  }
-
-/* ============================================================
-   BRUTALIST UTILITIES
-   ============================================================ */
-.brutalist-border {
-  border: 1px solid var(--ash);
-}
-.brutalist-block {
-  background: var(--charcoal);
-  border: 1px solid var(--ash);
-  padding: 3rem;
-}
-
-/* ============================================================
-   CUSTOM CURSOR
-   ============================================================ */
-.cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  background: var(--white);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, mix-blend-mode 0.2s ease;
-  mix-blend-mode: difference;
-}
-
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(224, 224, 224, 0.4);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: width 0.35s ease, height 0.35s ease, border-color 0.35s ease;
-}
-
-.cursor-dot.is-hovering  { width: 6px; height: 6px; }
-.cursor-ring.is-hovering { width: 60px; height: 60px; border-color: rgba(224,224,224,0.7); }
-
-/* ============================================================
-   SECTION LABEL (monospace overline)
-   ============================================================ */
-.section-label {
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--stone);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.section-label::before {
-  content: '';
-  display: inline-block;
-  width: 2rem;
-  height: 1px;
-  background: var(--stone);
-}
-
-/* ============================================================
-   HAIRLINE DIVIDERS
-   ============================================================ */
-.hairline {
-  width: 100%;
-  height: 1px;
-  background: var(--ash);
-}
-
-/* ============================================================
-   OBSIDIAN MENU OVERLAY
-   ============================================================ */
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--obsidian);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.menu-overlay.is-open {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.menu-nav-link {
-  font-family: var(--serif);
-  font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 700;
-  color: var(--ash);
-  text-decoration: none;
-  line-height: 1.05;
-  transition: color 0.3s ease;
-  display: block;
-}
-
-.menu-nav-link:hover {
-  color: var(--white);
-}
-
-/* ============================================================
-   FORM STYLES (Admission Request)
-   ============================================================ */
-.obsidian-input {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--ash);
-  padding: 1rem 0;
-  color: var(--white);
-  font-family: var(--sans);
-  font-size: 1rem;
-  font-weight: 300;
-  outline: none;
-  transition: border-color var(--transition-fast);
-}
-
-.obsidian-input::placeholder {
-  color: var(--stone);
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-}
-
-.obsidian-input:focus {
-  border-bottom-color: var(--silver);
-}
-
-/* ============================================================
-   PROJECT CARD - BRUTALIST ALIGN
-   ============================================================ */
-.project-cover {
   position: relative;
-  overflow: hidden;
-  width: 100%;
-  background: var(--charcoal);
+  /* cursor: none; Removing custom cursor since it's not requested anymore and can conflict with pure tailwind approach */
 }
 
-.project-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: grayscale(100%) contrast(1.1);
-}
-
-.project-cover:hover img {
-  transform: scale(1.05);
-  filter: grayscale(0%) contrast(1);
-}
-
-/* ============================================================
-   SKILL ROW HOVER
-   ============================================================ */
-.skill-row {
-  border-bottom: 1px solid var(--ash);
-  transition: background var(--transition-fast);
-}
-
-.skill-row:hover {
-  background: rgba(255,255,255,0.01);
-}
-
-.skill-row .skill-num {
-  font-family: var(--mono);
-  color: var(--ash);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  transition: color var(--transition-fast);
-}
-
-.skill-row:hover .skill-num {
-  color: var(--stone);
-}
-
-.skill-row .skill-name {
-  font-family: var(--serif);
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  color: var(--stone);
-  transition: color var(--transition-fast);
-  font-weight: 500;
-}
-
-.skill-row:hover .skill-name {
-  color: var(--bone);
-}
-
-/* ============================================================
-   NOISE TEXTURE OVERLAY (subtle grain)
-   ============================================================ */
+/* Background Pattern */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 1000;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 128px 128px;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+::selection {
+  background: var(--accent-purple);
+  color: var(--white);
+}
+
+/* ============================================================
+   TYPOGRAPHY & UTILS
+   ============================================================ */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.ghost-title {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   SCROLL REVEAL UTILITY (from old components)
+   ============================================================ */
+.will-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+
+.will-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }

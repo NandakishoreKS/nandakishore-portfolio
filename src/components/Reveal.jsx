@@ -1,20 +1,33 @@
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
-export function Reveal({ children, delay = 0, className = "" }) {
+export function Reveal({ children, delay = 0, className = '' }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(36px)';
+    el.style.transition = `opacity 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s`;
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [delay]);
+
   return (
-    <div className={`overflow-hidden ${className}`}>
-      <motion.div
-        initial={{ y: "100%" }}
-        whileInView={{ y: 0 }}
-        viewport={{ once: true, margin: "-10%" }}
-        transition={{
-          duration: 0.8,
-          ease: [0.16, 1, 0.3, 1], // Custom brutal ease
-          delay: delay,
-        }}
-      >
-        {children}
-      </motion.div>
+    <div ref={ref} className={className}>
+      {children}
     </div>
   );
 }

@@ -10,11 +10,7 @@ import CustomCursor from './components/CustomCursor';
 function App() {
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.5, smoothWheel: true }}>
-      <div
-        className="min-h-screen"
-        style={{ background: 'var(--obsidian)', color: 'var(--bone)' }}
-      >
-        <CustomCursor />
+      <div className="bg-black text-white min-h-screen">
         <Navbar />
         <main>
           <Hero />
