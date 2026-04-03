@@ -1,74 +1,94 @@
-import { motion } from 'framer-motion';
-
 export default function About() {
-  const textVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-
   return (
-    <section id="about" className="py-32 relative overflow-hidden bg-transparent min-h-screen flex items-center">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-violet-900/10 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] bg-pink-900/10 rounded-full blur-[100px]"></div>
-      </div>
+    <section
+      id="about"
+      style={{
+        padding: 'clamp(5rem, 12vw, 10rem) clamp(1.5rem, 6vw, 5rem)',
+        minHeight: '80vh',
+        display: 'flex',
+        alignItems: 'center',
+        borderTop: '1px solid var(--ash)',
+      }}
+    >
+      <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Section header */}
+        <div className="section-label reveal" style={{ marginBottom: '4rem' }}>
+          // Origin
+        </div>
 
-      <div className="container mx-auto px-6 relative z-10 max-w-4xl">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          <motion.h2 
-            variants={textVariants}
-            className="text-4xl md:text-5xl font-extrabold mb-12 uppercase tracking-tighter"
-          >
-            About <span className="text-fuchsia-500">Me</span>
-          </motion.h2>
-
-          <motion.div variants={textVariants} className="prose prose-invert prose-lg md:prose-xl max-w-none text-gray-300 font-light leading-relaxed space-y-8">
-            <p>
-              I'm Nandakishore KS, a passionate B.Tech Student, AI/ML Engineer, and Full Stack Developer. 
-              My journey is driven by a profound curiosity for how intelligent systems can seamlessly integrate into beautiful, dynamic user interfaces.
-            </p>
-            <p>
-              Whether I'm architecting sophisticated machine learning models, developing high-performance web applications, or experimenting with game development, I thrive on solving complex problems. I believe in writing clean, scalable code and delivering experiences that truly <span className="text-white font-medium">WOW</span> the user.
-            </p>
-            <p className="pb-8">
-              When I'm not coding, I'm exploring the latest advancements in AI tech and continually refining my craft. Let's build something remarkable together.
-            </p>
-          </motion.div>
-
-          {/* Floating Emoji Decorations inside the container */}
-          <div className="flex justify-around items-center mt-12 pt-12 border-t border-white/10">
-            <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-              className="text-4xl"
-            >
-              🧠
-            </motion.div>
-            <motion.div 
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              className="text-4xl"
-            >
-              🚀
-            </motion.div>
-            <motion.div 
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-              className="text-4xl"
-            >
-              🎮
-            </motion.div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'clamp(80px, 15vw, 180px) 1fr',
+          gap: 'clamp(2rem, 6vw, 6rem)',
+          alignItems: 'start',
+        }}>
+          {/* Large number */}
+          <div className="reveal reveal--left reveal-delay-1">
+            <span style={{
+              fontFamily: 'var(--serif)',
+              fontSize: 'clamp(5rem, 16vw, 14rem)',
+              fontWeight: 900,
+              lineHeight: 0.85,
+              color: 'var(--graphite)',
+              userSelect: 'none',
+              display: 'block',
+            }}>
+              01
+            </span>
           </div>
-        </motion.div>
+
+          {/* Text block */}
+          <div className="reveal reveal-delay-2">
+            <h2 style={{
+              fontFamily: 'var(--serif)',
+              fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+              fontWeight: 700,
+              color: 'var(--white)',
+              lineHeight: 1.15,
+              marginBottom: '2rem',
+              letterSpacing: '-0.01em',
+            }}>
+              Nandakishore KS
+            </h2>
+
+            <div style={{
+              display: 'flex', flexDirection: 'column', gap: '1.5rem',
+              maxWidth: '680px',
+            }}>
+              <p style={{ color: 'var(--silver)', fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)', lineHeight: 1.85, fontWeight: 300 }}>
+                A B.Tech student with a deep, systematic curiosity for intelligent systems —
+                how they are built, how they behave, and how they can be made to disappear
+                seamlessly into beautiful user experiences.
+              </p>
+              <p style={{ color: 'var(--silver)', fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)', lineHeight: 1.85, fontWeight: 300 }}>
+                I architect machine learning models, engineer high-performance web applications,
+                and experiment at the boundary of game development and AI. My drive is simple:
+                write code that is clean, scalable, and built to last — and deliver interfaces
+                that feel <em style={{ fontFamily: 'var(--serif)', color: 'var(--bone)', fontStyle: 'italic' }}>inevitable</em>.
+              </p>
+              <p style={{ color: 'var(--silver)', fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)', lineHeight: 1.85, fontWeight: 300 }}>
+                When not in the build phase, I'm tracking what's next in AI — and refining my craft.
+              </p>
+            </div>
+
+            {/* Attribute pills */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '2.5rem' }}>
+              {['AI / ML Engineering', 'Full Stack Dev', 'Computer Vision', 'Mobile Apps', 'Game Development'].map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    fontFamily: 'var(--mono)', fontSize: '0.6rem',
+                    letterSpacing: '0.15em', textTransform: 'uppercase',
+                    color: 'var(--stone)', border: '1px solid var(--ash)',
+                    padding: '0.4rem 0.9rem', borderRadius: '2px',
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

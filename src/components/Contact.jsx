@@ -1,117 +1,229 @@
-import { motion } from 'framer-motion';
-import { Send, Code, Briefcase, Globe, Mail } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Contact() {
+  const [status, setStatus] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setStatus('Request received. We will be in touch.');
+  };
+
   return (
-    <section id="contact" className="py-32 bg-transparent min-h-screen flex flex-col justify-between relative overflow-hidden">
-      
-      {/* Ghost Text Background */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
-        <h1 
-          className="text-[12rem] md:text-[20rem] font-black text-transparent leading-none opacity-20 tracking-tighter"
-          style={{ WebkitTextStroke: '2px rgba(255,255,255,0.1)' }}
-        >
-          CONTACT
-        </h1>
-      </div>
+    <section
+      id="contact"
+      style={{
+        borderTop: '1px solid var(--ash)',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', padding: 'clamp(5rem, 12vw, 10rem) clamp(1.5rem, 6vw, 5rem)' }}>
 
-      <div className="container mx-auto px-6 max-w-5xl flex-1 flex flex-col justify-center relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-24 mt-12"
-        >
-          <h2 className="text-5xl md:text-7xl font-extrabold mb-8 uppercase tracking-tighter">
-            Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-pink-500">Touch</span>
-          </h2>
-          <p className="text-gray-400 text-xl md:text-3xl font-light tracking-wide">
-            nandakishoreks21@gmail.com
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+        {/* Header */}
+        <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
+          <div className="section-label reveal" style={{ marginBottom: '1.25rem' }}>
+            // Admission Request
+          </div>
+          <h2
+            className="reveal reveal-delay-1"
+            style={{
+              fontFamily: 'var(--serif)',
+              fontSize: 'clamp(2.5rem, 7vw, 6rem)',
+              fontWeight: 700,
+              color: 'var(--white)',
+              lineHeight: 1.05,
+              letterSpacing: '-0.02em',
+              maxWidth: '800px',
+            }}
           >
-            <h3 className="text-3xl md:text-4xl font-bold mb-8 uppercase tracking-tight">Let's build something great</h3>
-            <p className="text-gray-400 text-lg md:text-xl mb-12 font-light leading-relaxed">
-              I'm always open to discussing product design work, exciting AI projects, or partnership opportunities. Feel free to reach out using the form or via email directly.
+            Submit Your<br />
+            <em style={{ color: 'var(--stone)', fontStyle: 'italic' }}>Enquiry.</em>
+          </h2>
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: 'clamp(3rem, 8vw, 8rem)',
+          alignItems: 'start',
+        }}>
+
+          {/* Left: info */}
+          <div className="reveal reveal--left reveal-delay-2">
+            <p style={{
+              fontFamily: 'var(--sans)', fontSize: '0.95rem',
+              color: 'var(--silver)', lineHeight: 1.85, fontWeight: 300,
+              marginBottom: '2.5rem', maxWidth: '44ch',
+            }}>
+              Open to discussing AI/ML projects, product design work, collaboration,
+              or any opportunity that pushes the boundaries of what's possible.
             </p>
 
-            <div className="flex gap-6">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-full transition-all text-white hover:-translate-y-1 shadow-lg hover:shadow-violet-500/20">
-                <Code size={26} />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-full transition-all text-white hover:-translate-y-1 shadow-lg hover:shadow-violet-500/20">
-                <Briefcase size={26} />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-full transition-all text-white hover:-translate-y-1 shadow-lg hover:shadow-violet-500/20">
-                <Globe size={26} />
-              </a>
-              <a href="mailto:nandakishoreks21@gmail.com" className="p-5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-full transition-all text-white hover:-translate-y-1 shadow-lg hover:shadow-violet-500/20">
-                <Mail size={26} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '2.5rem' }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.55rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--stone)', marginBottom: '0.2rem' }}>
+                Direct Line
+              </div>
+              <a
+                href="mailto:nandakishoreks21@gmail.com"
+                style={{
+                  fontFamily: 'var(--sans)', fontSize: '1rem',
+                  color: 'var(--bone)', textDecoration: 'none',
+                  transition: 'color 0.3s ease',
+                  display: 'inline-block',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--white)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--bone)'}
+              >
+                nandakishoreks21@gmail.com
               </a>
             </div>
-          </motion.div>
 
-          <motion.form
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="space-y-8"
-            onSubmit={(e) => e.preventDefault()}
+            {/* Social links */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {[
+                { label: 'GitHub',   href: 'https://github.com/NandakishoreKS' },
+                { label: 'LinkedIn', href: 'https://linkedin.com' },
+              ].map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: 'var(--mono)', fontSize: '0.65rem',
+                    letterSpacing: '0.2em', textTransform: 'uppercase',
+                    color: 'var(--stone)', textDecoration: 'none',
+                    transition: 'color 0.3s ease',
+                    display: 'flex', alignItems: 'center', gap: '0.5rem',
+                    width: 'fit-content',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--bone)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--stone)'}
+                >
+                  <span style={{ opacity: 0.4 }}>↗</span> {s.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: form */}
+          <form
+            className="reveal reveal-delay-3"
+            onSubmit={handleSubmit}
+            style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}
           >
+            {[
+              { id: 'contact-name',    label: 'Full Name',     type: 'text',  placeholder: 'Your name' },
+              { id: 'contact-email',   label: 'Email Address', type: 'email', placeholder: 'your@email.com' },
+              { id: 'contact-subject', label: 'Subject',       type: 'text',  placeholder: 'Project / Collaboration / Other' },
+            ].map((field) => (
+              <div key={field.id}>
+                <label
+                  htmlFor={field.id}
+                  style={{
+                    display: 'block',
+                    fontFamily: 'var(--mono)', fontSize: '0.55rem',
+                    letterSpacing: '0.2em', textTransform: 'uppercase',
+                    color: 'var(--stone)', marginBottom: '0.6rem',
+                  }}
+                >
+                  {field.label}
+                </label>
+                <input
+                  id={field.id}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  className="obsidian-input"
+                />
+              </div>
+            ))}
+
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-3 uppercase tracking-widest pl-2">Name</label>
-              <input 
-                type="text" 
-                id="name" 
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all font-light tracking-wide placeholder-white/20"
-                placeholder="John Doe"
+              <label
+                htmlFor="contact-message"
+                style={{
+                  display: 'block',
+                  fontFamily: 'var(--mono)', fontSize: '0.55rem',
+                  letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: 'var(--stone)', marginBottom: '0.6rem',
+                }}
+              >
+                Message
+              </label>
+              <textarea
+                id="contact-message"
+                rows={5}
+                placeholder="Describe your enquiry..."
+                className="obsidian-input"
+                style={{ resize: 'none' }}
               />
             </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-3 uppercase tracking-widest pl-2">Email</label>
-              <input 
-                type="email" 
-                id="email" 
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all font-light tracking-wide placeholder-white/20"
-                placeholder="john@example.com"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-3 uppercase tracking-widest pl-2">Message</label>
-              <textarea 
-                id="message" 
-                rows="5" 
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all resize-none font-light tracking-wide placeholder-white/20"
-                placeholder="How can we help?"
-              ></textarea>
-            </div>
-            <button 
-              type="submit" 
-              className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-violet-600 to-pink-500 hover:from-violet-500 hover:to-pink-400 text-white font-bold py-5 rounded-full transition-all duration-300 uppercase tracking-widest hover:scale-[1.02] shadow-[0_10px_30px_rgba(139,92,246,0.3)] mt-4"
+
+            <button
+              type="submit"
+              id="contact-submit"
+              style={{
+                width: '100%',
+                background: 'var(--white)',
+                color: 'var(--obsidian)',
+                border: 'none',
+                padding: '1.1rem 2rem',
+                fontFamily: 'var(--mono)',
+                fontSize: '0.65rem',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                transition: 'background 0.3s ease, color 0.3s ease',
+                borderRadius: '2px',
+                marginTop: '0.5rem',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--obsidian)';
+                e.currentTarget.style.color = 'var(--white)';
+                e.currentTarget.style.outline = '1px solid var(--ash)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--white)';
+                e.currentTarget.style.color = 'var(--obsidian)';
+                e.currentTarget.style.outline = 'none';
+              }}
             >
-              Send Message
-              <Send size={20} />
+              Transmit Request
             </button>
-          </motion.form>
+
+            {status && (
+              <p style={{
+                fontFamily: 'var(--mono)', fontSize: '0.6rem',
+                letterSpacing: '0.15em', color: 'var(--stone)',
+                textTransform: 'uppercase', textAlign: 'center',
+                marginTop: '-1rem',
+              }}>
+                ✓ {status}
+              </p>
+            )}
+          </form>
+
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="mt-32 border-t border-white/10 py-10 text-center bg-transparent relative z-10 w-full backdrop-blur-sm">
-        <div className="container mx-auto px-6">
-          <p className="text-gray-500 text-sm uppercase tracking-widest font-light">
-            © {new Date().getFullYear()} Nandakishore KS. All rights reserved.
-          </p>
-        </div>
+      <footer style={{
+        borderTop: '1px solid var(--ash)',
+        padding: '2rem clamp(1.5rem, 6vw, 5rem)',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '1rem',
+        maxWidth: '100%',
+      }}>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: '0.55rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--stone)' }}>
+          NKS © MMXXVI — All Works Reserved
+        </span>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: '0.55rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--ash)' }}>
+          Obsidian Assembly
+        </span>
       </footer>
     </section>
   );

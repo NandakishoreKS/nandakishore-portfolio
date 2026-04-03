@@ -1,108 +1,211 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ExternalLink } from 'lucide-react';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-const projectsList = [
+const projects = [
   {
     id: '01',
+    object: 'Object 01',
     name: 'Driver Drowsiness Detection System',
-    desc: 'AI-powered real-time drowsiness detector with a hardware setup utilizing computer vision and deep learning to enhance road safety.',
-    tags: ['Python', 'Computer Vision', 'Deep Learning', 'Hardware Integration'],
-    link: '#'
+    cover: '/cover-drowsiness.png',
+    context: 'An AI-powered real-time safety system built with computer vision and deep learning. Designed to integrate with hardware setups and detect driver fatigue states before critical incident points.',
+    result: 'A robust detection pipeline achieving high-accuracy alerting using CNN-based eye-state classification. Deployed with a hardware integration layer for real-world applicability in road safety scenarios.',
+    tags: ['Python', 'Computer Vision', 'Deep Learning', 'Hardware', 'OpenCV'],
+    link: '#',
   },
   {
     id: '02',
+    object: 'Object 02',
     name: 'PostPulse',
-    desc: 'AI Instagram Reel Analyzer, a web app deployed on Vercel and Railway that analyzes Instagram reels using AI to provide actionable insights for creators.',
-    tags: ['React', 'Node.js', 'AI/ML', 'Vercel', 'Railway'],
-    link: '#'
-  }
+    cover: '/cover-postpulse.png',
+    context: 'An AI-powered Instagram Reel analyzer — a full-stack web application giving content creators actionable intelligence derived from their short-form video performance.',
+    result: 'Deployed across Vercel and Railway with a React frontend and Node.js backend, feeding creator insights through a clean analytical interface. Reduces guesswork in content strategy.',
+    tags: ['React', 'Node.js', 'AI / ML', 'Vercel', 'Railway', 'REST API'],
+    link: '#',
+  },
 ];
 
-export default function Projects() {
-  const [expandedId, setExpandedId] = useState(projectsList[0].id);
+function ProjectCard({ project, index }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="projects" className="py-32 bg-transparent min-h-screen">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <motion.h2 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl md:text-7xl font-extrabold mb-24 uppercase tracking-tighter"
-        >
-          Selected <span className="text-violet-500">Projects</span>
-        </motion.h2>
+    <article
+      ref={ref}
+      style={{
+        borderTop: '1px solid var(--ash)',
+        paddingTop: 'clamp(3rem, 7vw, 6rem)',
+        paddingBottom: 'clamp(3rem, 7vw, 6rem)',
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? 'none' : 'translateY(48px)',
+        transition: `opacity 1s cubic-bezier(0.16,1,0.3,1) ${index * 0.15}s, transform 1s cubic-bezier(0.16,1,0.3,1) ${index * 0.15}s`,
+      }}
+    >
+      {/* Overline */}
+      <div className="section-label" style={{ marginBottom: '1.5rem' }}>
+        {project.object}
+      </div>
 
-        <div className="space-y-8">
-          {projectsList.map((project, index) => {
-            const isExpanded = expandedId === project.id;
-
-            return (
-              <motion.div 
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className={`relative border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-violet-500/50 group ${isExpanded ? 'bg-white/[0.03]' : 'bg-transparent hover:bg-white/[0.02]'}`}
-              >
-                {/* Gradient left border accent on hover */}
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-violet-600 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                <button
-                  onClick={() => setExpandedId(isExpanded ? null : project.id)}
-                  className="w-full flex items-center justify-between p-8 md:p-10 text-left focus:outline-none"
-                >
-                  <div className="flex items-center gap-8 pl-4">
-                    <span className="text-2xl font-bold text-white/20 tracking-wider font-mono">{project.id}</span>
-                    <h3 className="text-2xl md:text-4xl font-bold uppercase tracking-tight">{project.name}</h3>
-                  </div>
-                  <motion.div
-                    animate={{ rotate: isExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ChevronDown className="text-gray-400 group-hover:text-white transition-colors" size={32} />
-                  </motion.div>
-                </button>
-
-                <AnimatePresence>
-                  {isExpanded && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: "easeInOut" }}
-                    >
-                      <div className="px-8 md:px-10 pb-10 pt-2 pl-4 md:pl-24">
-                        <p className="text-gray-300 text-lg md:text-xl mb-10 font-light leading-relaxed max-w-3xl">
-                          {project.desc}
-                        </p>
-                        
-                        <div className="flex flex-wrap gap-4 mb-12">
-                          {project.tags.map(tag => (
-                            <span key={tag} className="bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs font-medium text-gray-300 uppercase tracking-widest">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        <a 
-                          href={project.link} 
-                          className="inline-flex items-center gap-3 px-8 py-4 border border-white/30 rounded-full hover:bg-white hover:text-black transition-all duration-300 uppercase tracking-widest text-sm font-bold shadow-[0_5px_15px_rgba(0,0,0,0.2)]"
-                        >
-                          View Project
-                          <ExternalLink size={18} />
-                        </a>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
+      {/* Cover image */}
+      <div
+        className="project-cover"
+        style={{
+          width: '100%',
+          aspectRatio: '16 / 7',
+          borderRadius: '3px',
+          marginBottom: 'clamp(2rem, 4vw, 3.5rem)',
+          background: 'var(--graphite)',
+        }}
+      >
+        <img
+          src={project.cover}
+          alt={`${project.name} cover`}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+        <div className="project-cover-overlay">
+          <span style={{
+            fontFamily: 'var(--serif)', fontSize: '1.2rem',
+            color: 'var(--white)', fontStyle: 'italic',
+          }}>
+            View project →
+          </span>
         </div>
+      </div>
+
+      {/* Title */}
+      <h3 style={{
+        fontFamily: 'var(--serif)',
+        fontSize: 'clamp(1.8rem, 4vw, 3.5rem)',
+        fontWeight: 700,
+        color: 'var(--white)',
+        letterSpacing: '-0.015em',
+        lineHeight: 1.1,
+        marginBottom: 'clamp(2rem, 4vw, 3rem)',
+        maxWidth: '800px',
+      }}>
+        {project.name}
+      </h3>
+
+      {/* Context / Result columns */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: 'clamp(2rem, 5vw, 5rem)',
+        marginBottom: 'clamp(1.5rem, 3vw, 2.5rem)',
+      }}>
+        <div>
+          <div className="section-label" style={{ marginBottom: '1rem' }}>
+            // Context
+          </div>
+          <p style={{
+            fontFamily: 'var(--sans)', fontSize: '0.95rem',
+            color: 'var(--silver)', lineHeight: 1.85, fontWeight: 300,
+          }}>
+            {project.context}
+          </p>
+        </div>
+        <div>
+          <div className="section-label" style={{ marginBottom: '1rem' }}>
+            // Result
+          </div>
+          <p style={{
+            fontFamily: 'var(--sans)', fontSize: '0.95rem',
+            color: 'var(--silver)', lineHeight: 1.85, fontWeight: 300,
+          }}>
+            {project.result}
+          </p>
+        </div>
+      </div>
+
+      {/* Tags + CTA */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem', marginTop: '2rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', flex: 1 }}>
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              style={{
+                fontFamily: 'var(--mono)', fontSize: '0.55rem',
+                letterSpacing: '0.15em', textTransform: 'uppercase',
+                color: 'var(--stone)', border: '1px solid var(--ash)',
+                padding: '0.3rem 0.75rem', borderRadius: '2px',
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+        <a
+          href={project.link}
+          style={{
+            fontFamily: 'var(--mono)', fontSize: '0.65rem',
+            letterSpacing: '0.2em', textTransform: 'uppercase',
+            color: 'var(--bone)', textDecoration: 'none',
+            display: 'flex', alignItems: 'center', gap: '0.5rem',
+            borderBottom: '1px solid var(--ash)',
+            paddingBottom: '2px',
+            transition: 'color 0.3s ease, border-color 0.3s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--white)';
+            e.currentTarget.style.borderColor = 'var(--silver)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--bone)';
+            e.currentTarget.style.borderColor = 'var(--ash)';
+          }}
+        >
+          View Case Study&nbsp;→
+        </a>
+      </div>
+    </article>
+  );
+}
+
+export default function Projects() {
+  return (
+    <section
+      id="projects"
+      style={{
+        padding: 'clamp(5rem, 12vw, 10rem) clamp(1.5rem, 6vw, 5rem)',
+        borderTop: '1px solid var(--ash)',
+      }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <div className="section-label reveal" style={{ marginBottom: '1.25rem' }}>
+              // Origin Objects
+            </div>
+            <h2
+              className="reveal reveal-delay-1"
+              style={{
+                fontFamily: 'var(--serif)',
+                fontSize: 'clamp(2.2rem, 5vw, 4rem)',
+                fontWeight: 700,
+                color: 'var(--white)',
+                letterSpacing: '-0.01em',
+                lineHeight: 1.1,
+              }}
+            >
+              Selected Works
+            </h2>
+          </div>
+          <div
+            className="reveal reveal-delay-2"
+            style={{
+              fontFamily: 'var(--mono)', fontSize: '0.6rem',
+              letterSpacing: '0.15em', color: 'var(--stone)',
+              textTransform: 'uppercase',
+            }}
+          >
+            {projects.length}&nbsp;Case Studies
+          </div>
+        </div>
+
+        {/* Project cards */}
+        {projects.map((project, i) => (
+          <ProjectCard key={project.id} project={project} index={i} />
+        ))}
       </div>
     </section>
   );
