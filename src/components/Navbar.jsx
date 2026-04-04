@@ -1,27 +1,18 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useState, useEffect } from 'react';
 
 export default function Navbar() {
-  const navRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        start: 'top -80',
-        end: 99999,
-        toggleClass: {
-          className: 'bg-black/80 backdrop-blur-md border-b border-white/10',
-          targets: navRef.current
-        }
-      });
-    });
-    return () => ctx.revert();
+    const handleScroll = () => {
+      if (window.scrollY > 80) setScrolled(true);
+      else setScrolled(false);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleScroll = (e, targetId) => {
+  const handleNavClick = (e, targetId) => {
     e.preventDefault();
     const elem = document.getElementById(targetId);
     if (elem) {
@@ -34,12 +25,15 @@ export default function Navbar() {
 
   return (
     <nav 
-      ref={navRef} 
-      className="fixed top-0 left-0 w-full z-40 transition-colors duration-300 bg-transparent border-b border-transparent"
+      className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-black/70 backdrop-blur-md border-b border-white/[0.08]' 
+          : 'bg-transparent border-b border-transparent'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <a href="#" className="text-xl font-bold tracking-tighter" onClick={(e) => handleScroll(e, 'hero')}>
-          N.KS
+        <a href="#" className="text-xl font-bold tracking-tighter" onClick={(e) => handleNavClick(e, 'hero')}>
+          N<span className="text-[#c8f04a]">.</span>KS
         </a>
         
         <div className="hidden md:flex gap-8">
@@ -47,11 +41,11 @@ export default function Navbar() {
             <a 
               key={item}
               href={`#${item.toLowerCase()}`}
-              onClick={(e) => handleScroll(e, item.toLowerCase())}
-              className="text-sm font-medium tracking-widest relative group"
+              onClick={(e) => handleNavClick(e, item.toLowerCase())}
+              className="text-sm font-medium tracking-widest relative group overflow-hidden py-1"
             >
               {item}
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#c8f04a] translate-y-[2px] transition-transform duration-300 group-hover:translate-y-0 text-outline"></span>
             </a>
           ))}
         </div>
