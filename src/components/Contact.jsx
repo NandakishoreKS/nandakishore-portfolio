@@ -1,75 +1,83 @@
+import { motion } from 'framer-motion';
+
 export default function Contact() {
   return (
-    <section id="contact" className="relative w-full bg-white text-black py-32 px-6 overflow-hidden">
+    <section id="contact" className="relative w-full bg-black pt-32 flex flex-col">
       
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 lg:gap-32">
+      <div className="max-w-4xl mx-auto px-6 w-full flex-grow flex flex-col items-center justify-center mb-32">
         
-        {/* Left Column (Heading + Email) */}
-        <div className="md:w-1/2 flex flex-col justify-center">
-          
-          <h2 className="font-extrabold uppercase leading-none mb-12 flex flex-col" style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
-            <span>LET'S</span>
-            <span>GET IN</span>
-            <span>TOUCH</span>
-          </h2>
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-5xl md:text-7xl font-extrabold uppercase tracking-tighter mb-4">Get In Touch</h2>
+          <a href="mailto:nandakishoreks21@gmail.com" className="text-xl md:text-2xl text-white/60 hover:text-pink-400 transition-colors duration-300">
+            nandakishoreks21@gmail.com
+          </a>
+        </motion.div>
 
-          <div className="mb-8 relative w-max group">
-            <a href="mailto:nandakishoreks21@gmail.com" className="text-lg md:text-2xl font-bold tracking-tight pb-1 relative z-10">
-              nandakishoreks21@gmail.com
-            </a>
-            <div className="absolute bottom-0 left-0 w-full h-[3px] bg-black scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+        <motion.form 
+          className="w-full flex flex-col gap-10"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          onSubmit={e => e.preventDefault()}
+        >
+          <div className="flex flex-col md:flex-row gap-10">
+            <input 
+              type="text" 
+              placeholder="Name" 
+              className="flex-1 bg-transparent border-b border-white/20 text-white text-lg pb-4 outline-none placeholder:text-white/30 focus:border-pink-500 transition-colors"
+            />
+            <input 
+              type="email" 
+              placeholder="Email" 
+              className="flex-1 bg-transparent border-b border-white/20 text-white text-lg pb-4 outline-none placeholder:text-white/30 focus:border-pink-500 transition-colors"
+            />
           </div>
-
-          <div className="text-6xl mt-4 animate-bounce">
-            🫵
-          </div>
           
-        </div>
+          <textarea 
+            placeholder="Message" 
+            rows={5}
+            className="w-full bg-transparent border-b border-white/20 text-white text-lg pb-4 outline-none placeholder:text-white/30 focus:border-pink-500 transition-colors resize-none"
+          />
 
-        {/* Right Column (Form) */}
-        <div className="md:w-1/2 flex flex-col justify-center">
-          <form className="flex flex-col gap-10" onSubmit={(e) => e.preventDefault()}>
-            
-            <div className="flex flex-col">
-              <input 
-                type="text" 
-                placeholder="Full Name" 
-                className="w-full bg-transparent border-b border-gray-300 text-black text-xl md:text-2xl pb-3 outline-none placeholder:text-gray-400 focus:border-black transition-colors"
-                required
-              />
-            </div>
-            
-            <div className="flex flex-col">
-              <input 
-                type="email" 
-                placeholder="Email Address" 
-                className="w-full bg-transparent border-b border-gray-300 text-black text-xl md:text-2xl pb-3 outline-none placeholder:text-gray-400 focus:border-black transition-colors"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <textarea 
-                placeholder="Message" 
-                rows={4}
-                className="w-full bg-transparent border-b border-gray-300 text-black text-xl md:text-2xl pb-3 outline-none placeholder:text-gray-400 resize-none focus:border-black transition-colors"
-                required
-              />
-            </div>
-
-            <div className="pt-6">
-              <button 
-                type="submit" 
-                className="w-full py-4 rounded-full bg-gradient-to-r from-violet-600 to-pink-500 text-white font-bold uppercase tracking-widest hover:opacity-90 hover:scale-[1.02] transition-all duration-300 shadow-xl"
-              >
-                Send Message
-              </button>
-            </div>
-            
-          </form>
-        </div>
+          <button 
+            type="submit" 
+            className="w-full py-5 rounded-full bg-gradient-to-r from-violet-600 to-pink-500 text-white font-extrabold uppercase tracking-widest text-lg hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(236,72,153,0.3)] transition-all duration-300"
+          >
+            Send Message
+          </button>
+        </motion.form>
 
       </div>
+
+      {/* Integrated Footer */}
+      <footer className="w-full border-t border-white/10 relative z-10 bg-black py-10">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-xl font-bold tracking-tighter text-white">
+            NANDAKISHORE KS
+          </div>
+          
+          <div className="text-xs font-semibold tracking-widest text-white/40 uppercase">
+            © {new Date().getFullYear()}
+          </div>
+          
+          <div className="flex gap-8">
+            <a href="#" className="text-xs font-bold tracking-[0.1em] text-white/60 hover:text-pink-400 transition-colors duration-300 uppercase">
+              GitHub
+            </a>
+            <a href="#" className="text-xs font-bold tracking-[0.1em] text-white/60 hover:text-pink-400 transition-colors duration-300 uppercase">
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </footer>
+
     </section>
   );
 }
