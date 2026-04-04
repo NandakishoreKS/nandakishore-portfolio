@@ -1,97 +1,100 @@
-import { useScrollReveal } from '../hooks/useScrollReveal';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
     id: "01",
-    title: "DRIVER DROWSINESS",
-    subtitle: "DETECTION SYSTEM",
-    desc: "AI-powered real-time drowsiness detector utilizing computer vision and deep learning models. Complete with custom hardware setup for immediate driver alerting.",
-    tags: ["PYTHON", "OPENCV", "DEEP LEARNING", "HARDWARE"]
+    name: "DRIVER DROWSINESS DETECTION",
+    desc: "Real-time AI drowsiness detection system with custom hardware setup. Uses computer vision and deep learning to alert drivers instantly.",
+    tags: ["PYTHON", "OPENCV", "DEEP LEARNING", "HARDWARE"],
+    gradients: [
+      "from-blue-600 to-cyan-400",
+      "from-violet-600 to-blue-400"
+    ]
   },
   {
     id: "02",
-    title: "POSTPULSE",
-    subtitle: "AI ANALYZER",
-    desc: "AI Instagram Reel Analyzer deployed globally. Analyzes engagement metrics, retention graphs, and recommends content restructuring for optimal virality.",
-    tags: ["REACT", "NEXT.JS", "AI MODELS", "VERCEL/RAILWAY"]
+    name: "POSTPULSE",
+    desc: "AI-powered Instagram Reel Analyzer. Analyzes engagement, retention graphs, and recommends content restructuring for maximum virality. Live on Vercel + Railway.",
+    tags: ["REACT", "NODE.JS", "AI/ML", "VERCEL", "RAILWAY"],
+    gradients: [
+      "from-pink-500 to-orange-400",
+      "from-purple-500 to-pink-400"
+    ]
   }
 ];
 
-function ProjectRow({ project }) {
-  const ref = useScrollReveal();
-  
-  return (
-    <div 
-      ref={ref} 
-      className="reveal-target group flex flex-col py-16 border-t border-white/20 transition-all duration-500 hover:border-[#c8f04a] relative"
-    >
-      {/* Subtle left glow on hover */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#c8f04a]/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-
-      <div className="flex flex-col md:flex-row justify-between items-start gap-8 relative z-10 w-full mb-8">
-        
-        <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-12 w-full">
-          <span className="text-2xl font-bold text-[#c8f04a] leading-none shrink-0">{project.id}</span>
-          
-          <div className="flex flex-col items-start w-full gap-8 md:gap-0 md:flex-row md:justify-between border-b md:border-b-0 border-white/10 pb-8 md:pb-0">
-            <h3 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase leading-[0.9] group-hover:text-[#c8f04a] transition-colors duration-500 max-w-lg">
-              {project.title} <br />
-              <span className="text-white/60 group-hover:text-[#c8f04a]/80 transition-colors duration-500">
-                {project.subtitle}
-              </span>
-            </h3>
-            
-            {/* View Project Button right side */}
-            <div className="mt-4 md:mt-2 shrink-0">
-              <a href="#" className="inline-block px-8 py-3 rounded-full border border-white text-sm font-semibold tracking-wide uppercase transition-all duration-300 group-hover:bg-[#c8f04a] group-hover:border-[#c8f04a] group-hover:text-black">
-                VIEW PROJECT →
-              </a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      
-      <div className="flex flex-col md:flex-row gap-8 justify-between relative z-10 sm:pl-[4.5rem]">
-        {/* Description */}
-        <p className="font-light text-white/50 text-xl leading-relaxed max-w-2xl">
-          {project.desc}
-        </p>
-
-        {/* Tags */}
-        <div className="flex flex-wrap items-end justify-start md:justify-end gap-3 max-w-md">
-          {project.tags.map((tag, i) => (
-            <span key={i} className="px-5 py-2 rounded-full border border-white/15 text-xs font-semibold tracking-wider text-white bg-transparent">
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
-    </div>
-  );
-}
-
 export default function Projects() {
-  const headerRef = useScrollReveal();
-
   return (
-    <section id="projects" className="relative w-full py-32 bg-transparent border-t border-white/10 overflow-hidden">
+    <section id="projects" className="relative w-full bg-black py-32 px-6">
       
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-24 relative">
         
-        {/* Header Block */}
-        <div ref={headerRef} className="reveal-target mb-20 flex flex-col items-start hidden sm:flex">
-          <div className="inline-flex items-center px-4 py-2 rounded border border-[#c8f04a]/40 mb-6 font-semibold tracking-widest text-xs text-[#c8f04a]">
-            SELECTED WORK
+        {/* Sticky Left Heading */}
+        <div className="lg:w-1/3 relative">
+          <div className="lg:sticky lg:top-32">
+            <h2 
+              className="font-extrabold uppercase leading-none"
+              style={{ fontSize: 'clamp(3rem, 8vw, 7rem)' }}
+            >
+              PROJECTS
+            </h2>
+            <div className="h-2 w-24 bg-gradient-to-r from-violet-600 to-pink-500 mt-6 md:mt-10 rounded-full" />
           </div>
         </div>
 
-        {/* Project List */}
-        <div className="flex flex-col gap-0 w-full pt-8">
-          {projects.map((p) => (
-            <ProjectRow key={p.id} project={p} />
+        {/* Right Project Cards */}
+        <div className="lg:w-2/3 flex flex-col gap-16 md:gap-24">
+          
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              className="w-full flex flex-col rounded-2xl p-6 md:p-10 border border-white/15 bg-white/[0.03] transition-all duration-400 ease-in-out hover:border-[rgba(124,58,237,0.6)] hover:shadow-[0_0_40px_rgba(124,58,237,0.15)] hover:-translate-y-1"
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.15 * index }}
+            >
+              
+              {/* Card Header (Number + Title & Button) */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-white/10 pb-8">
+                
+                <div className="flex items-center gap-6">
+                  <span className="text-3xl font-bold text-white/30 leading-none">{project.id}</span>
+                  <h3 className="text-2xl md:text-4xl font-bold uppercase tracking-tight max-w-sm leading-none">
+                    {project.name}
+                  </h3>
+                </div>
+
+                <a href="#" className="inline-block px-5 py-2.5 rounded-full border border-white text-white font-semibold text-xs tracking-wider uppercase whitespace-nowrap transition-colors hover:bg-white hover:text-black mt-4 md:mt-0 text-center">
+                  LIVE PROJECT →
+                </a>
+
+              </div>
+
+              {/* Description */}
+              <p className="text-white/60 font-light text-base md:text-lg mb-10 leading-relaxed max-w-xl">
+                {project.desc}
+              </p>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-10">
+                {project.tags.map((tag, i) => (
+                  <span key={i} className="px-3 py-1 rounded-full border border-white/20 text-xs tracking-widest uppercase text-white/60">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Preview Images Placeholders */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {project.gradients.map((grad, i) => (
+                  <div key={i} className={`w-full h-40 md:h-56 rounded-xl bg-gradient-to-br ${grad} opacity-80 transition-opacity hover:opacity-100`} />
+                ))}
+              </div>
+
+            </motion.div>
           ))}
+
         </div>
 
       </div>

@@ -1,74 +1,78 @@
-import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 export default function Hero() {
-  const name = "NANDAKISHORE KS";
+  const name = "HI, I'M NANDAKISHORE";
+  
+  // Split the word including spaces
+  const letters = name.split('');
+
+  const container = {
+    hidden: { opacity: 0 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      transition: { staggerChildren: 0.05, delayChildren: 0.2 * i },
+    }),
+  };
+
+  const child = {
+    visible: { opacity: 1, y: 0, transition: { ease: [0.16, 1, 0.3, 1], duration: 1 } },
+    hidden: { opacity: 0, y: "100%" },
+  };
 
   return (
-    <section id="hero" className="relative w-full h-screen flex flex-col justify-between overflow-hidden pt-32 pb-12 px-6 lg:px-12">
+    <section className="relative w-full min-h-screen bg-black flex flex-col items-center justify-center pt-32 px-6">
       
-      {/* Top Name Area */}
-      <div className="relative z-10 pt-10">
+      <div className="w-full max-w-7xl mx-auto flex flex-col items-center flex-grow justify-center gap-16 md:gap-24 mb-16">
         
-        {/* Ghost Text Behind Name */}
-        <div className="absolute top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-full text-center">
-          <h1 
-            className="font-bold text-outline uppercase leading-none opacity-[0.06]"
-            style={{ fontSize: 'clamp(5rem, 15vw, 18rem)' }}
+        {/* Top 3 Columns */}
+        <div className="flex flex-col md:flex-row items-center justify-between w-full relative z-10 gap-12 md:gap-0">
+          
+          {/* LEFT: Tagline */}
+          <div className="md:w-1/3 text-center md:text-left">
+            <p className="text-white text-xs md:text-sm uppercase font-light leading-relaxed max-w-xs mx-auto md:mx-0">
+              AN AI/ML ENGINEER PASSIONATE ABOUT BUILDING INTELLIGENT SYSTEMS AND BEAUTIFUL INTERFACES 🤖
+            </p>
+          </div>
+
+          {/* CENTER: Avatar Placeholder */}
+          <div className="md:w-1/3 flex justify-center z-20">
+            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-violet-600 to-pink-500 flex items-center justify-center shadow-2xl relative translate-y-8 md:translate-y-16">
+              <span className="text-5xl md:text-6xl font-bold text-white tracking-tighter">NK</span>
+            </div>
+          </div>
+
+          {/* RIGHT: CTA Button */}
+          <div className="md:w-1/3 flex justify-center md:justify-end">
+            <a href="#contact" className="px-6 py-3 rounded-full bg-gradient-to-r from-violet-600 to-pink-500 text-white font-semibold uppercase text-sm tracking-wide hover:scale-105 transition-transform duration-300">
+              CONTACT ME →
+            </a>
+          </div>
+
+        </div>
+
+        {/* Giant Centered Name */}
+        <div className="w-full text-center overflow-hidden z-10 -mt-12 md:-mt-24">
+          <motion.h1 
+            className="font-extrabold uppercase leading-none overflow-hidden"
+            style={{ fontSize: 'clamp(3rem, 10vw, 9rem)', letterSpacing: '-0.02em' }}
+            variants={container}
+            initial="hidden"
+            animate="visible"
           >
-            PORTFOLIO
-          </h1>
+            {letters.map((letter, i) => (
+              <motion.span 
+                key={i} 
+                className="inline-block"
+                variants={child}
+              >
+                {letter === ' ' ? '\u00A0' : letter}
+              </motion.span>
+            ))}
+          </motion.h1>
         </div>
-
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-[#c8f04a]/[0.08] backdrop-blur-sm mb-8">
-          <div className="w-2 h-2 rounded-full bg-[#c8f04a] animate-pulse" />
-          <span className="text-xs font-medium tracking-widest text-[#c8f04a]/90 uppercase">Available For Work</span>
-        </div>
-
-        {/* Main Name */}
-        <h1 className="text-[12vw] md:text-[8rem] font-bold leading-none tracking-tighter flex overflow-hidden relative z-10">
-          {name.split('').map((letter, i) => (
-            <span key={i} className="inline-block">
-              {letter === ' ' ? '\u00A0' : letter}
-            </span>
-          ))}
-        </h1>
-
-        {/* Role */}
-        <p className="text-xl md:text-2xl text-white/60 mt-6 tracking-wide relative z-10 font-light">
-          AI/ML Engineer & Full Stack Developer
-        </p>
 
       </div>
 
-      {/* Separator block (fills space) */}
-      <div className="flex-grow flex items-end w-full max-w-7xl mx-auto pb-8">
-        <div className="w-full h-[1px] bg-white/[0.1] relative">
-           {/* Line */}
-        </div>
-      </div>
-
-      {/* Bottom Area */}
-      <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col md:flex-row items-start md:items-end justify-between pt-2">
-        
-        {/* Emojis Bottom Left */}
-        <div className="flex gap-3 text-2xl mb-8 md:mb-0">
-          <motion.div className="flex items-center justify-center bg-white/5 backdrop-blur rounded-full px-3 py-2 border border-white/10" animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>🤖</motion.div>
-          <motion.div className="flex items-center justify-center bg-white/5 backdrop-blur rounded-full px-3 py-2 border border-white/10" animate={{ y: [0, -15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}>💻</motion.div>
-          <motion.div className="flex items-center justify-center bg-white/5 backdrop-blur rounded-full px-3 py-2 border border-white/10" animate={{ y: [0, -8, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 2 }}>⚡</motion.div>
-        </div>
-
-        {/* Action Button */}
-        <a 
-          href="#contact"
-          className="px-8 py-3 rounded-full border border-white text-white font-medium tracking-wide transition-all duration-300 hover:bg-[#c8f04a] hover:border-[#c8f04a] hover:text-black uppercase text-sm"
-        >
-          Get In Touch
-        </a>
-
-      </div>
-      
     </section>
   );
 }
