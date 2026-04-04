@@ -6,12 +6,15 @@
   box-sizing: border-box; 
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   font-family: 'Space Grotesk', sans-serif; 
   overflow-x: hidden; 
   background-color: #000;
   color: #fff;
-  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
@@ -29,4 +32,9 @@ html, body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.text-outline {
+  -webkit-text-stroke: 2px rgba(0, 0, 0, 0.15);
+  color: transparent;
 }

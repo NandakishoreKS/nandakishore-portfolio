@@ -2,81 +2,82 @@ import { motion } from 'framer-motion';
 
 export default function Contact() {
   return (
-    <section id="contact" className="relative w-full bg-black pt-32 flex flex-col">
+    <section id="contact" className="relative w-full bg-black py-24 px-6 md:px-16 lg:px-24">
       
-      <div className="max-w-4xl mx-auto px-6 w-full flex-grow flex flex-col items-center justify-center mb-32">
+      <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
         
+        {/* LEFT COLUMN */}
         <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          className="flex flex-col text-left"
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-5xl md:text-7xl font-extrabold uppercase tracking-tighter mb-4">Get In Touch</h2>
-          <a href="mailto:nandakishoreks21@gmail.com" className="text-xl md:text-2xl text-white/60 hover:text-pink-400 transition-colors duration-300">
+          <div 
+            className="flex flex-col font-extrabold uppercase leading-none text-white text-left"
+            style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
+          >
+            <span>LET'S</span>
+            <span>GET IN</span>
+            <span>TOUCH</span>
+          </div>
+
+          <a 
+            href="mailto:nandakishoreks21@gmail.com" 
+            className="mt-6 text-base text-white/60 hover:text-white hover:underline transition-colors"
+          >
             nandakishoreks21@gmail.com
           </a>
+
+          <div className="text-4xl mt-4">
+            🤙
+          </div>
         </motion.div>
 
+        {/* RIGHT COLUMN */}
         <motion.form 
-          className="w-full flex flex-col gap-10"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          className="flex flex-col w-full"
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, delay: 0.2 }}
           onSubmit={e => e.preventDefault()}
         >
-          <div className="flex flex-col md:flex-row gap-10">
+          
+          <div className="grid grid-cols-2 gap-6 mb-8 mt-2">
             <input 
               type="text" 
               placeholder="Name" 
-              className="flex-1 bg-transparent border-b border-white/20 text-white text-lg pb-4 outline-none placeholder:text-white/30 focus:border-pink-500 transition-colors"
+              required
+              className="w-full bg-transparent border-0 border-b border-white/20 pb-4 pt-2 text-white text-base placeholder:text-white/30 focus:border-white focus:outline-none focus:ring-0 transition-colors"
             />
             <input 
               type="email" 
               placeholder="Email" 
-              className="flex-1 bg-transparent border-b border-white/20 text-white text-lg pb-4 outline-none placeholder:text-white/30 focus:border-pink-500 transition-colors"
+              required
+              className="w-full bg-transparent border-0 border-b border-white/20 pb-4 pt-2 text-white text-base placeholder:text-white/30 focus:border-white focus:outline-none focus:ring-0 transition-colors"
             />
           </div>
-          
-          <textarea 
-            placeholder="Message" 
-            rows={5}
-            className="w-full bg-transparent border-b border-white/20 text-white text-lg pb-4 outline-none placeholder:text-white/30 focus:border-pink-500 transition-colors resize-none"
-          />
+
+          <div className="mb-4">
+            <textarea 
+              placeholder="Message" 
+              required
+              className="w-full bg-transparent border-0 border-b border-white/20 pb-4 pt-2 text-white text-base placeholder:text-white/30 focus:border-white focus:outline-none focus:ring-0 min-h-[80px] resize-y transition-colors"
+            />
+          </div>
 
           <button 
             type="submit" 
-            className="w-full py-5 rounded-full bg-gradient-to-r from-violet-600 to-pink-500 text-white font-extrabold uppercase tracking-widest text-lg hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(236,72,153,0.3)] transition-all duration-300"
+            className="w-full bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white font-bold uppercase tracking-widest rounded-full py-4 mt-4 hover:opacity-90 hover:scale-[1.01] transition-all"
           >
-            Send Message
+            SEND MESSAGE
           </button>
+
         </motion.form>
 
       </div>
-
-      {/* Integrated Footer */}
-      <footer className="w-full border-t border-white/10 relative z-10 bg-black py-10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-xl font-bold tracking-tighter text-white">
-            NANDAKISHORE KS
-          </div>
-          
-          <div className="text-xs font-semibold tracking-widest text-white/40 uppercase">
-            © {new Date().getFullYear()}
-          </div>
-          
-          <div className="flex gap-8">
-            <a href="#" className="text-xs font-bold tracking-[0.1em] text-white/60 hover:text-pink-400 transition-colors duration-300 uppercase">
-              GitHub
-            </a>
-            <a href="#" className="text-xs font-bold tracking-[0.1em] text-white/60 hover:text-pink-400 transition-colors duration-300 uppercase">
-              LinkedIn
-            </a>
-          </div>
-        </div>
-      </footer>
 
     </section>
   );

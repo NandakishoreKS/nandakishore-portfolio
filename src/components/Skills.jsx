@@ -11,46 +11,55 @@ const skills = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative w-full py-32 px-6 bg-black">
-      <div className="max-w-6xl mx-auto flex flex-col">
+    <section id="skills" className="relative w-full bg-[#f5f5f5] py-24 px-6 md:px-16 lg:px-24">
+      
+      <div className="max-w-6xl mx-auto w-full">
         
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-20 text-center"
+        {/* Ghost Heading */}
+        <h2 
+          className="font-extrabold uppercase text-transparent text-left mb-16"
+          style={{ 
+            fontSize: 'clamp(4rem, 12vw, 10rem)', 
+            WebkitTextStroke: '2px rgba(0,0,0,0.1)' 
+          }}
         >
-          <h2 className="text-5xl md:text-7xl font-extrabold uppercase tracking-tighter">My Skills</h2>
-          <div className="w-24 h-2 bg-gradient-to-r from-violet-600 to-pink-500 mx-auto mt-6 rounded-full" />
-        </motion.div>
+          SKILLS
+        </h2>
 
-        <div className="flex flex-col border-t border-white/10">
+        <div className="flex flex-col w-full border-t border-black/10">
+          
           {skills.map((skill, index) => (
             <motion.div 
               key={skill.id}
-              className="group flex flex-col md:flex-row items-start md:items-center py-10 md:py-16 border-b border-white/10 gap-8 md:gap-16 transition-colors hover:bg-white/[0.02]"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="group flex flex-col md:flex-row items-start md:items-center py-8 border-b border-black/10 gap-8"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: 0.1 * index }}
             >
-              <div className="text-7xl font-extrabold text-white/10 group-hover:text-pink-500 transition-colors duration-500 flex-shrink-0">
-                {skill.id}
-              </div>
-              <div className="flex flex-col gap-3">
-                <h3 className="text-2xl md:text-4xl font-bold uppercase tracking-wide group-hover:text-violet-400 transition-colors duration-300">
+              
+              <div className="flex items-center gap-8 w-full md:w-auto flex-1">
+                <span className="text-7xl font-black text-gray-200 w-24 md:w-32 shrink-0 transition-all duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#7C3AED] group-hover:to-[#EC4899]">
+                  {skill.id}
+                </span>
+                <h3 className="text-xl font-bold uppercase tracking-wide text-gray-900 flex-1">
                   {skill.name}
                 </h3>
-                <p className="text-lg md:text-xl text-white/50 font-light">
+              </div>
+
+              <div className="hidden md:block max-w-xs text-right">
+                <p className="text-base text-gray-400 font-light">
                   {skill.desc}
                 </p>
               </div>
+
             </motion.div>
           ))}
+          
         </div>
 
       </div>
+
     </section>
   );
 }
