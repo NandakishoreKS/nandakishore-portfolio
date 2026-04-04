@@ -1,32 +1,85 @@
-import { Reveal } from './Reveal';
-import { FloatingEmoji } from './Hero';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
+  const containerRef = useRef(null);
+  const textRef = useRef(null);
+
+  const bioLines = [
+    "I'm a B.Tech student with a profound",
+    "passion for building intelligent systems",
+    "and beautiful interfaces. My expertise",
+    "spans across artificial intelligence,",
+    "machine learning, and full-stack web.",
+    "I believe in combining robust logic",
+    "with stunning aesthetics to create",
+    "unforgettable digital experiences."
+  ];
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.bio-line', {
+        scrollTrigger: {
+          trigger: textRef.current,
+          start: 'top 85%',
+          ease: 'power3.out',
+        },
+        y: 60,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.1,
+      });
+
+      // Simple parallax for the background ABOUT text
+      gsap.to('.about-ghost', {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1
+        },
+        y: 100
+      });
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="about" className="dark-section section-padding" style={{ position: 'relative', overflow: 'hidden' }}>
-      <div className="hairline" style={{ position: 'absolute', top: 0, left: 0 }} />
+    <section id="about" ref={containerRef} className="relative w-full min-h-screen flex items-center overflow-hidden py-32 bg-black border-t border-white/10">
+      
+      {/* Ghost Background Text */}
+      <div className="absolute left-[-5%] top-1/2 -translate-y-1/2 select-none pointer-events-none about-ghost">
+        <h2 className="text-[25vw] font-bold text-outline opacity-10 uppercase leading-none">
+          ABOUT
+        </h2>
+      </div>
 
-      <FloatingEmoji emoji="💡" style={{ top: '20%', left: '10%' }} delay={0.5} />
-      <FloatingEmoji emoji="🧠" style={{ bottom: '30%', right: '12%' }} delay={2} />
-
-      <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 10 }}>
-        <Reveal>
-          <h2 className="display-font" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '2.5rem' }}>
-            ABOUT <span className="text-gradient">ME</span>
-          </h2>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: '#bbb', lineHeight: 1.8, marginBottom: '2rem' }}>
-            I am a B.Tech student specializing in Artificial Intelligence. I have a deep passion for building full-stack products and integrating AI/ML to solve hard problems. My current focus is completely on architecting scalable, elegant systems from the database layer all the way up to the user interface.
-          </p>
-        </Reveal>
+      <div className="max-w-7xl mx-auto px-6 w-full relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center">
         
-        <Reveal delay={0.4}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: '#bbb', lineHeight: 1.8 }}>
-            Whether it is training custom neural networks or shipping performant React applications, I believe in tools and spaces that are <strong style={{ color: '#fff' }}>fast, beautiful, and intelligent.</strong>
-          </p>
-        </Reveal>
+        {/* Section Indicator */}
+        <div className="mb-12 md:mb-0 md:w-1/3">
+          <span className="text-8xl font-bold text-white/10">01</span>
+        </div>
+
+        {/* Bio Content */}
+        <div ref={textRef} className="md:w-2/3 flex flex-col items-start space-y-2">
+          {bioLines.map((line, idx) => (
+            <div key={idx} className="overflow-hidden">
+              <p className="bio-line text-2xl md:text-5xl font-medium tracking-tight text-white/90">
+                {line}
+              </p>
+            </div>
+          ))}
+          <div className="pt-12 mt-8 overflow-hidden w-full">
+             <div className="bio-line h-px w-full bg-white/20" />
+          </div>
+        </div>
+
       </div>
     </section>
   );

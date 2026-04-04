@@ -1,41 +1,61 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const navLinks = [
-  { label: 'About',    href: '#about'    },
-  { label: 'Skills',   href: '#skills'   },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact',  href: '#contact'  },
-];
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
-  const scrollTo = (href) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        start: 'top -80',
+        end: 99999,
+        toggleClass: {
+          className: 'bg-black/80 backdrop-blur-md border-b border-white/10',
+          targets: navRef.current
+        }
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
+  const handleScroll = (e, targetId) => {
+    e.preventDefault();
+    const elem = document.getElementById(targetId);
+    if (elem) {
+      window.scrollTo({
+        top: elem.offsetTop,
+        behavior: 'smooth'
+      });
+    }
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 md:px-16 lg:px-24 py-5 bg-black/60 backdrop-blur-md border-b border-white/10 transition-all">
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="text-white text-lg md:text-xl font-bold tracking-tight uppercase"
-      >
-        NKS<span className="text-gradient">.</span>
-      </button>
-
-      <nav className="flex items-center gap-4 md:gap-10">
-        {navLinks.map((link) => (
-          <button
-            key={link.label}
-            onClick={() => scrollTo(link.href)}
-            className="relative text-gray-300 font-medium hover:text-white transition-colors group py-1 text-sm md:text-base"
-          >
-            {link.label}
-            <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-gradient-to-r from-violet-600 to-pink-500 transition-all duration-300 group-hover:w-full" />
-          </button>
-        ))}
-      </nav>
-    </header>
+    <nav 
+      ref={navRef} 
+      className="fixed top-0 left-0 w-full z-40 transition-colors duration-300 bg-transparent border-b border-transparent"
+    >
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="#" className="text-xl font-bold tracking-tighter" onClick={(e) => handleScroll(e, 'hero')}>
+          N.KS
+        </a>
+        
+        <div className="hidden md:flex gap-8">
+          {['ABOUT', 'SKILLS', 'PROJECTS', 'CONTACT'].map((item) => (
+            <a 
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              onClick={(e) => handleScroll(e, item.toLowerCase())}
+              className="text-sm font-medium tracking-widest relative group"
+            >
+              {item}
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
   );
 }

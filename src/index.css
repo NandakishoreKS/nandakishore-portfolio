@@ -1,109 +1,40 @@
 @import "tailwindcss";
 
-/* ============================================================
-   NANDAKISHORE KS — Dark Modern Portfolio (Purple Accent)
-   ============================================================ */
-
-:root {
-  --black:  #000000;
-  --white:  #FFFFFF;
-  --dark-gray: #111111;
-  --mid-gray: #888888;
-  --light-gray: #CCCCCC;
-
-  --accent-purple: #9d4edd;
-  --accent-pink: #ff70a6;
-
-  --font-main: 'Space Grotesk', sans-serif;
-
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.87, 0, 0.13, 1);
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
 }
 
-/* ============================================================
-   BASE RESET
-   ============================================================ */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+html { 
+  background: #000; 
+  color: #fff; 
 }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-  background-color: var(--black);
+body { 
+  font-family: 'Space Grotesk', sans-serif; 
+  overflow-x: hidden; 
 }
 
-html.lenis, html.lenis body {
-  height: auto;
+/* Hide scrollbar for Chrome, Safari and Opera bg styling */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important; /* Lenis handles this when active */
+::-webkit-scrollbar-track {
+  background: #000;
 }
 
-.lenis.lenis-stopped {
-  overflow: hidden;
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
 }
 
-body {
-  background-color: var(--black);
-  color: var(--white);
-  font-family: var(--font-main);
-  font-weight: 400;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  position: relative;
-  /* cursor: none; Removing custom cursor since it's not requested anymore and can conflict with pure tailwind approach */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
-/* Background Pattern */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-::selection {
-  background: var(--accent-purple);
-  color: var(--white);
-}
-
-/* ============================================================
-   TYPOGRAPHY & UTILS
-   ============================================================ */
-
-.text-gradient {
-  background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-}
-
-.ghost-title {
-  color: transparent;
+.text-outline {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
-  text-transform: uppercase;
-}
-
-/* ============================================================
-   SCROLL REVEAL UTILITY (from old components)
-   ============================================================ */
-.will-reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
-}
-
-.will-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+  color: transparent;
 }

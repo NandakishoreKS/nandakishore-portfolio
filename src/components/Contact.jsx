@@ -1,106 +1,125 @@
-import { useState } from 'react';
-import { Reveal } from './Reveal';
-import { Send, Mail } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const GithubIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-  </svg>
-);
-
-const LinkedinIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-    <rect x="2" y="9" width="4" height="12" />
-    <circle cx="4" cy="4" r="2" />
-  </svg>
-);
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [status, setStatus] = useState('');
+  const containerRef = useRef(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus('Message sent successfully!');
-    setForm({ name: '', email: '', message: '' });
-  };
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      
+      const elements = gsap.utils.toArray('.contact-animate');
+      
+      gsap.from(elements, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 80%',
+        },
+        y: 40,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.15,
+        ease: 'power3.out',
+      });
+
+      // Simple parallax for the background CONTACT text
+      gsap.to('.contact-ghost', {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1
+        },
+        y: 150
+      });
+
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="contact" className="relative py-32 px-6 md:px-16 lg:px-24 border-t border-white/5 overflow-hidden">
+    <section id="contact" ref={containerRef} className="relative w-full min-h-screen bg-black border-t border-white/10 flex flex-col justify-between overflow-hidden pt-32">
       
-      {/* Ghost text background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 w-full text-center">
-        <h2 className="ghost-title text-[clamp(6rem,15vw,20rem)] font-black leading-none opacity-20">
+      {/* Ghost Background Text */}
+      <div className="absolute top-[10%] left-1/2 -translate-x-1/2 select-none pointer-events-none contact-ghost whitespace-nowrap">
+        <h2 className="text-[20vw] font-bold text-outline opacity-[0.08] uppercase leading-none">
           CONTACT
         </h2>
       </div>
 
-      <div className="max-w-2xl mx-auto relative z-10">
-        <Reveal>
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl font-bold tracking-tight mb-4 text-white">GET IN TOUCH</h2>
-            <p className="text-gray-400 font-medium">nandakishoreks21@gmail.com</p>
-          </div>
-        </Reveal>
+      <div className="max-w-7xl mx-auto px-6 w-full relative z-10 flex-grow flex flex-col items-center justify-center text-center">
+        
+        <h2 className="contact-animate text-5xl md:text-8xl font-bold tracking-tighter uppercase mb-8">
+          GET IN TOUCH
+        </h2>
+        
+        <a href="mailto:nandakishoreks21@gmail.com" className="contact-animate text-xl md:text-3xl font-medium tracking-wide text-white/80 hover:text-white transition-colors duration-300 relative group inline-block mb-24">
+          nandakishoreks21@gmail.com
+          <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-gradient-to-r from-violet-600 to-pink-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+        </a>
 
-        <Reveal delay={0.2}>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            <div>
-              <input
-                type="text"
-                placeholder="Full Name"
-                required
-                value={form.name}
-                onChange={e => setForm({...form, name: e.target.value})}
-                className="w-full bg-white/5 border border-white/10 focus:border-violet-500 rounded-xl px-5 py-4 text-white outline-none transition-all placeholder:text-gray-500"
+        {/* Contact Form */}
+        <form className="contact-animate w-full max-w-2xl text-left flex flex-col gap-12" onSubmit={(e) => e.preventDefault()}>
+          
+          <div className="flex flex-col md:flex-row gap-12">
+            <div className="flex-1 border-b border-white/20 pb-4 relative group">
+              <input 
+                type="text" 
+                placeholder="YOUR NAME" 
+                className="w-full bg-transparent outline-none text-white placeholder-white/40 tracking-widest text-sm"
               />
-            </div>
-            <div>
-              <input
-                type="email"
-                placeholder="Email Address"
-                required
-                value={form.email}
-                onChange={e => setForm({...form, email: e.target.value})}
-                className="w-full bg-white/5 border border-white/10 focus:border-violet-500 rounded-xl px-5 py-4 text-white outline-none transition-all placeholder:text-gray-500"
-              />
-            </div>
-            <div>
-              <textarea
-                placeholder="Your Message..."
-                required
-                rows={5}
-                value={form.message}
-                onChange={e => setForm({...form, message: e.target.value})}
-                className="w-full bg-white/5 border border-white/10 focus:border-violet-500 rounded-xl px-5 py-4 text-white outline-none transition-all placeholder:text-gray-500 resize-none"
-              />
+              <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-focus-within:w-full" />
             </div>
             
-            <button type="submit" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-pink-500 rounded-full px-8 py-4 text-white font-semibold hover:shadow-[0_0_20px_rgba(157,78,221,0.4)] transition-all self-center mt-4">
-              Send Message <Send size={18} />
+            <div className="flex-1 border-b border-white/20 pb-4 relative group">
+              <input 
+                type="email" 
+                placeholder="YOUR EMAIL" 
+                className="w-full bg-transparent outline-none text-white placeholder-white/40 tracking-widest text-sm"
+              />
+              <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-focus-within:w-full" />
+            </div>
+          </div>
+
+          <div className="w-full border-b border-white/20 pb-4 relative group">
+            <textarea 
+              placeholder="YOUR MESSAGE" 
+              rows={4}
+              className="w-full bg-transparent outline-none text-white placeholder-white/40 tracking-widest text-sm resize-none"
+            />
+            <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-focus-within:w-full" />
+          </div>
+
+          <div className="flex justify-start pt-8">
+            <button type="submit" className="px-10 py-4 rounded-full bg-gradient-to-r from-violet-600 to-pink-600 text-white font-semibold tracking-widest text-sm hover:scale-105 transition-transform duration-300">
+              SEND MESSAGE
             </button>
-            {status && <p className="text-pink-400 text-center text-sm mt-2 font-medium">✓ {status}</p>}
-          </form>
-        </Reveal>
+          </div>
+        </form>
+
       </div>
 
-      <footer className="relative z-10 mt-32 border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p className="text-gray-500 text-sm font-medium">
-          © 2026 Nandakishore KS. Built with React & Vite.
-        </p>
-        <div className="flex items-center gap-6">
-          <a href="#" className="text-gray-500 hover:text-white transition-colors">
-            <GithubIcon />
-          </a>
-          <a href="#" className="text-gray-500 hover:text-white transition-colors">
-            <LinkedinIcon />
-          </a>
-          <a href="mailto:nandakishoreks21@gmail.com" className="text-gray-500 hover:text-white transition-colors">
-            <Mail size={20} />
-          </a>
+      {/* Footer */}
+      <footer className="w-full border-t border-white/10 mt-24 py-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-2xl font-bold tracking-tighter">
+            N.KS
+          </div>
+          <div className="text-sm font-medium tracking-widest text-white/40">
+            © {new Date().getFullYear()} NANDAKISHORE KS
+          </div>
+          <div className="flex gap-6">
+            {['GITHUB', 'LINKEDIN', 'TWITTER'].map((social) => (
+              <a key={social} href="#" className="text-xs font-semibold tracking-widest text-white/60 hover:text-white transition-colors">
+                {social}
+              </a>
+            ))}
+          </div>
         </div>
       </footer>
+
     </section>
   );
 }

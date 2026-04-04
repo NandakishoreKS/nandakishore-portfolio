@@ -1,4 +1,5 @@
-import { ReactLenis } from 'lenis/react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -8,8 +9,33 @@ import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
 
 function App() {
+  const overlayRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.to(overlayRef.current, {
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out',
+        onComplete: () => {
+          gsap.set(overlayRef.current, { display: 'none' });
+        }
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <ReactLenis root options={{ lerp: 0.08, duration: 1.5, smoothWheel: true }}>
+    <>
+      <CustomCursor />
+      
+      {/* Initial Fade Overlay */}
+      <div 
+        ref={overlayRef}
+        className="fixed inset-0 bg-black z-50 pointer-events-none"
+      />
+      
       <div className="bg-black text-white min-h-screen">
         <Navbar />
         <main>
@@ -20,7 +46,7 @@ function App() {
           <Contact />
         </main>
       </div>
-    </ReactLenis>
+    </>
   );
 }
 

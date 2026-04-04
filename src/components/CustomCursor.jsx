@@ -1,54 +1,43 @@
 import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 
 export default function CustomCursor() {
-  const dotRef  = useRef(null);
-  const ringRef = useRef(null);
+  const cursorRef = useRef(null);
 
   useEffect(() => {
-    const dot  = dotRef.current;
-    const ring = ringRef.current;
-    if (!dot || !ring) return;
-
-    let mouseX = 0, mouseY = 0;
-    let ringX  = 0, ringY  = 0;
-    let rafId;
-
-    const onMove = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.left = `${mouseX}px`;
-      dot.style.top  = `${mouseY}px`;
-    };
-
-    const loop = () => {
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
-      ring.style.left = `${ringX}px`;
-      ring.style.top  = `${ringY}px`;
-      rafId = requestAnimationFrame(loop);
-    };
-
-    const onEnter = () => { dot.classList.add('is-hovering'); ring.classList.add('is-hovering'); };
-    const onLeave = () => { dot.classList.remove('is-hovering'); ring.classList.remove('is-hovering'); };
-
-    window.addEventListener('mousemove', onMove);
-    document.querySelectorAll('a, button, [role="button"]').forEach(el => {
-      el.addEventListener('mouseenter', onEnter);
-      el.addEventListener('mouseleave', onLeave);
+    // Hide default cursor on body
+    document.body.style.cursor = 'none';
+    
+    // Select all interactive elements that need cursor styling overriden
+    const interactiveElements = document.querySelectorAll('a, button, input, textarea, select');
+    interactiveElements.forEach(el => {
+      el.style.cursor = 'none';
     });
 
-    rafId = requestAnimationFrame(loop);
+    const xTo = gsap.quickTo(cursorRef.current, 'x', { duration: 0.1, ease: 'power3' });
+    const yTo = gsap.quickTo(cursorRef.current, 'y', { duration: 0.1, ease: 'power3' });
+
+    const moveCursor = (e) => {
+      xTo(e.clientX);
+      yTo(e.clientY);
+    };
+
+    window.addEventListener('mousemove', moveCursor);
 
     return () => {
-      window.removeEventListener('mousemove', onMove);
-      cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', moveCursor);
+      document.body.style.cursor = 'auto';
+      interactiveElements.forEach(el => {
+        el.style.cursor = '';
+      });
     };
   }, []);
 
   return (
-    <>
-      <div ref={dotRef}  className="cursor-dot"  />
-      <div ref={ringRef} className="cursor-ring" />
-    </>
+    <div
+      ref={cursorRef}
+      className="fixed top-0 left-0 w-3 h-3 bg-white rounded-full pointer-events-none z-[100]"
+      style={{ transform: 'translate(-50%, -50%)' }}
+    />
   );
 }
